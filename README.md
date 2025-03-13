@@ -35,14 +35,11 @@
 ## 2. 修改檔案（跳過部分檔案以避免編譯出錯）
 
 由於部分 ARMv7 平台（cortex-a9）可能在編譯 `sgemm.cpp` 會報錯（牽涉到 ARMv8.2 FP16 指令），需先行移除或註解。
-![image](https://hackmd.io/_uploads/H13hYEIIJg.png)
 1. 進入目錄：
    ```bash
    cd ~/llama-cpp-python/vendor/llama.cpp/ggml/src/ggml-cpu
    vim CMakeLists.txt
    ```
-   ![image](https://hackmd.io/_uploads/BknAfI8Ikg.png)
-
 2. 找到原先 `list(APPEND GGML_CPU_SOURCES ... sgemm.cpp sgemm.h)` 等處，將其註解：
    ```cmake
    # list(APPEND GGML_CPU_SOURCES
@@ -50,8 +47,6 @@
    #     ggml-cpu/llamafile/sgemm.h
    # )
    ```
-![image](https://hackmd.io/_uploads/SJ3y9EI81g.png)
-![image](https://hackmd.io/_uploads/H1-Fc4LLkl.png)
 3. 編輯 `ggml-cpu.c` (若還有呼叫 sgemm 的區段)，同樣把呼叫位置註解掉或改成空函式。
 ```
 vim ggml-cpu.c
@@ -186,8 +181,6 @@ python test_model.py
 您:
 ```
 即可與模型互動。
-![image](https://hackmd.io/_uploads/HJR1ArLLyg.png)
-
 ---
 
 ## 4. 在 32 位元系統載入超過 4GB 檔案的限制
